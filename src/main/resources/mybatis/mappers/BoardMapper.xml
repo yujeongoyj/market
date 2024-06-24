@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nc13.mappers.BoardMapper">
+    <select id="selectAll" resultType="productDTO" parameterType="hashmap">
+        SELECT * FROM product
+        INNER JOIN inventory
+        ON product.id = inventory.productId
+        ORDER BY product.id DESC
+        LIMIT ${startRow}, ${size}
+    </select>
+
+    <select id="selectMaxRow" resultType="int">
+        SELECT COUNT(*) FROM product
+    </select>
+</mapper>
