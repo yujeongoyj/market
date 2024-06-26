@@ -1,6 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.nc13.coupang.model.UserDTO" %>
+<%@ page import="com.nc13.coupang.service.UserService" %>
+<%@ page import="com.nc13.coupang.controller.UserController" %>
+<%@page language="java" contentType="text/html;charset=UTF-8" %>
+<%@taglib prefix="c" uri="jakarta.tags.core" %> <!--태그라이브라는 애를 불러올 껀데 걔 이름이 c야-->
+<%@taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +20,9 @@
     <div>검색</div>
     <div>마이페이지</div>
 </div>
+<div class="row justify-content-end">
+
+</div>
 <div>
     <table class="table table-striped">
         <thead>
@@ -26,15 +32,16 @@
             <th>가격</th>
         </tr>
         </thead>
-        <tbody>
+
         <c:forEach items="${list}" var="p">
-            <tr onclick="location.href='/board/showOne/${p.id}'">
+            <tr onclick="javascript:location.href='/board/showOne/${p.id}'">
                 <td>${p.id}</td>
                 <td>${p.name}</td>
                 <td>${p.price}</td>
             </tr>
         </c:forEach>
-        </tbody>
+
+
     </table>
     <div class="text-center">
         <ul class="pagination justify-content-center">
@@ -69,6 +76,20 @@
                 <a href="/board/showAll/${maxPage}" class="page-link"> >> </a>
             </li>
         </ul>
+        <%
+
+            UserDTO result = (UserDTO) session.getAttribute("logIn");
+            if(result.isAdmin()) {
+
+        %>
+        <div class="row justify-content-end">
+            <div class="col-3">
+                <a class="btn btn-outline-success" href="/board/write">상품 등록</a>
+            </div>
+        </div>
+        <%
+            }
+        %>
     </div>
 </div>
 </body>

@@ -49,4 +49,8 @@ public class BoardService {
     public ProductDTO selectOne(int id) {
         return session.selectOne(NAMESPACE + ".selectOne", id);
     }
+
+    public void insert(ProductDTO productDTO) {
+        session.insert(NAMESPACE + ".insert", productDTO);
+    }
 }

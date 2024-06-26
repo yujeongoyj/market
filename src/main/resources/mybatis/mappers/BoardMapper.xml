@@ -5,10 +5,17 @@
 <mapper namespace="com.nc13.mappers.BoardMapper">
     <select id="selectAll" resultType="productDTO" parameterType="hashmap">
         SELECT * FROM product
-        INNER JOIN inventory
-        ON product.id = inventory.productId
-        ORDER BY product.id DESC
         LIMIT ${startRow}, ${size}
+    </select>
+
+    <insert id="insert" parameterType="productDTO" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO product(name, description, price)
+        VALUES(#{name}, #{description}, #{price})
+    </insert>
+
+    <select id="selectOne" parameterType="int" resultType="productDTO">
+        SELECT * FROM product
+        where product.id = #{id}
     </select>
 
     <select id="selectMaxRow" resultType="int">

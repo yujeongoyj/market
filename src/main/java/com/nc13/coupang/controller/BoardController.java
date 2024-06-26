@@ -7,12 +7,21 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+import java.util.HashMap;
 import java.util.List;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.UUID;
+
 
 @Controller
 @RequestMapping("/board/")
@@ -68,12 +77,26 @@ public class BoardController {
     }
 
     @GetMapping("write")
-    public String showWrite(HttpSession session) {
+    public String showUploaded(HttpSession session) {
         UserDTO logIn = (UserDTO) session.getAttribute("logIn");
         if (logIn == null) {
             return "redirect:/";
         }
         return "board/write";
+    }
+
+    @PostMapping("write")
+    public String upload(HttpSession session, ProductDTO productDTO) {
+        UserDTO logIn = (UserDTO) session.getAttribute("logIn");
+        if (logIn == null) {
+            return "redirect:/";
+        }
+
+
+        boardService.insert(productDTO);
+        System.out.println(productDTO);
+
+        return "redirect:/board/showOne/" + productDTO.getId();
     }
 
     @GetMapping("showOne/{id}")
@@ -84,6 +107,7 @@ public class BoardController {
         }
 
         ProductDTO productDTO = boardService.selectOne(id);
+        System.out.println(productDTO);
 
         if (productDTO == null) {
             redirectAttributes.addFlashAttribute("message", "해당 글 번호는 유효하지 않습니다.");
@@ -93,5 +117,43 @@ public class BoardController {
         model.addAttribute("productDTO", productDTO);
 
         return "board/showOne";
+
+    }
+
+    @ResponseBody
+    @PostMapping("uploads")
+    public Map<String, Object> uploads(MultipartHttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        String uploadPath = "";
+
+        MultipartFile file = request.getFile("upload");
+        String fileName = file.getOriginalFilename();
+        String extension = fileName.substring(fileName.lastIndexOf("."));
+        String uploadName = UUID.randomUUID() + extension;
+
+        String realPath = request.getServletContext().getRealPath("/board/uploads/");
+        Path realDir = Paths.get(realPath);
+        if (!Files.exists(realDir)) {
+            try {
+                Files.createDirectories(realDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        File uploadFile = new File(realPath + uploadName);
+        try {
+            file.transferTo(uploadFile);
+        } catch (IOException e) {
+            System.out.println("파일 전송 중 에러");
+            e.printStackTrace();
+        }
+
+        uploadPath = "/board/uploads/" + uploadName;
+
+        resultMap.put("uploaded", true);
+        resultMap.put("url", uploadPath);
+        return resultMap;
     }
 }
