@@ -42,11 +42,11 @@ public class BoardController {
             return "redirect:/";
         }
 
-        // 전체 페이지 수
+
         int maxPage = boardService.selectMaxPage();
         model.addAttribute("maxPage", maxPage);
 
-        // 시작 페이지, 끝 페이지 계산
+
         int startPage;
         int endPage;
 

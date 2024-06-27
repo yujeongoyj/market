@@ -34,7 +34,7 @@
 
                 <%
                     UserDTO result = (UserDTO) session.getAttribute("logIn");
-                    if(result.isSeller()) {
+                    if(result.getIsSeller().equalsIgnoreCase("true")) {
                 %>
                 <tr class="text-center">
                     <td class="text-center" colspan="3">
