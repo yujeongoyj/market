@@ -32,6 +32,17 @@
                 <input type="text" name="nickname" id="nickname" class="form-control">
             </div>
         </div>
+
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <label for="role">가입종류</label>
+                <select name="role" id="role" class="form-select">
+                    <option value="false">구매자</option>
+                    <option value="true">판매자</option>
+                </select>
+            </div>
+        </div>
+
         <div class="row justify-content-center">
             <div class="col-4 text-center">
                 <input id="btnSubmit" type="submit" class="btn btn-outline-primary" value="회원 가입" disabled>
@@ -48,7 +59,7 @@
                     'username': username
                 },
                 success: (result) => {
-                    if(result.result === 'success'){
+                    if (result.result === 'success') {
                         Swal.fire({
                             'title': '가입 가능한 아이디입니다.'
                         }).then(() => {

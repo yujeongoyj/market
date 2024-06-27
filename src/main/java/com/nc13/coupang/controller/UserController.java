@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -34,14 +35,17 @@ public class UserController {
         UserDTO result = userService.auth(userDTO);
 
         if (result != null && result.getUsername().equals("admin") && result.getPassword().equals("1234")) {
-            result.setAdmin(true);
+            result.setIsSeller("true");
         }
+
         if (result != null) {
             session.setAttribute("logIn", result);
-            if (result.isAdmin()) {
+            if ("true".equals(result.getIsSeller())) {
                 System.out.println("판매자");
+                result.setIsSeller("true");
             } else {
-                System.out.println("일반");
+                System.out.println("구매자");
+                result.setIsSeller("false");
 
             }
             return "redirect:/board/showAll";
@@ -57,16 +61,11 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public String register(UserDTO userDTO, RedirectAttributes redirectAttributes) {
+    public String register(UserDTO userDTO,@RequestParam("role") String role, RedirectAttributes redirectAttributes) {
         if (userService.validateUsername(userDTO.getUsername())) {
+            userDTO.setIsSeller(role);
             userService.register(userDTO);
         } else {
-            // 회원 가입 실패 메시지 전송
-            // 회원 가입 실패시, 우리가 URL을 /error 라는 곳으로 전송을 해주되,
-            // 해당 페이지에서 무슨 에러인지 알 수 있도록
-            // 메시지 내용을 여기서 담아서 보낸다.
-            // 만약 다른 URL로 이동을 할 때 어떠한 값을 보내주어야 하는 경우
-            // RedirectAttributes 라는 것을 사용한다.
             redirectAttributes.addFlashAttribute("message", "중복된 아이디로는 가입하실 수 없습니다.");
 
             return "redirect:/showMessage";

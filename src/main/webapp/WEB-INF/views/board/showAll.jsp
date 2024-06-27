@@ -24,25 +24,21 @@
 
 </div>
 <div>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>상품 번호</th>
-            <th>상품 이름</th>
-            <th>가격</th>
-        </tr>
-        </thead>
+
 
         <c:forEach items="${list}" var="p">
-            <tr onclick="javascript:location.href='/board/showOne/${p.id}'">
-                <td>${p.id}</td>
-                <td>${p.name}</td>
-                <td>${p.price}</td>
-            </tr>
+            <div onclick="javascript:location.href='/board/showOne/${p.id}'">
+                <p>상품 번호</p>
+                ${p.id}
+                <p>상품 이름</p>
+                ${p.name}
+                <p>가격</p>
+                ${p.price}
+            </div>
         </c:forEach>
 
 
-    </table>
+
     <div class="text-center">
         <ul class="pagination justify-content-center">
             <li class="page-item">
@@ -79,7 +75,7 @@
         <%
 
             UserDTO result = (UserDTO) session.getAttribute("logIn");
-            if(result.isAdmin()) {
+            if(result.getIsSeller().equalsIgnoreCase("true")) {
 
         %>
         <div class="row justify-content-end">

@@ -1,7 +1,7 @@
 <%@ page import="com.nc13.coupang.model.UserDTO" %>
 <%@page language="java" contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>${productDTO.id}번 물품</title>
@@ -31,26 +31,26 @@
                 <tr>
                     <td colspan="2">${productDTO.description}</td>
                 </tr>
-               <%
-                   UserDTO result = (UserDTO) session.getAttribute("logIn");
-                   if(result.isAdmin()) {
-               %>
-                    <tr class="text-center">
-                        <td class="text-center" colspan="3">
-                            <a class="btn btn-outline-success" href="/board/update/${productDTO.id}">수정하기</a>
-                            <button class="btn btn-outline-danger" onclick="deleteBoard(${productDTO.id})">삭제하기</button>
-                        </td>
-                    </tr>
+
+                <%
+                    UserDTO result = (UserDTO) session.getAttribute("logIn");
+                    if(result.isSeller()) {
+                %>
+                <tr class="text-center">
+                    <td class="text-center" colspan="3">
+                        <a class="btn btn-outline-success" href="/board/update/${productDTO.id}">수정하기</a>
+                        <button class="btn btn-outline-danger" onclick="deleteBoard(${productDTO.id})">삭제하기</button>
+                    </td>
+                </tr>
                 <%
                     }
                 %>
                 <tr>
-                    <td colspan="3" class="text-center">
+                    <td colspan="2" class="text-center">
                         <a class="btn btn-outline-secondary" href="/board/showAll">목록으로</a>
                     </td>
                 </tr>
             </table>
-
         </div>
     </div>
 </div>
@@ -67,11 +67,12 @@
             if(result.isConfirmed){
                 Swal.fire({
                     title: '삭제되었습니다.'
-                }).then((result) => {
+                }).then(() => {
                     location.href='/board/delete/'+id;
                 })
             }
         });
     }
+</script>
 </body>
 </html>

@@ -8,7 +8,7 @@ public class UserDTO {
     private String username;
     private String password;
     private String nickname;
-    private boolean isAdmin;
+    private String isSeller;
     private String address;
 
 }
