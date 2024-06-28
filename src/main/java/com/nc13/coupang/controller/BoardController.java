@@ -4,6 +4,7 @@ import com.nc13.coupang.model.ProductDTO;
 import com.nc13.coupang.model.UserDTO;
 import com.nc13.coupang.service.BoardService;
 import jakarta.servlet.http.HttpSession;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -86,10 +87,34 @@ public class BoardController {
     }
 
     @PostMapping("write")
-    public String upload(HttpSession session, ProductDTO productDTO) {
+    public String upload(HttpSession session, ProductDTO productDTO, @RequestParam("file") MultipartFile file ) {
         UserDTO logIn = (UserDTO) session.getAttribute("logIn");
         if (logIn == null) {
             return "redirect:/";
+        }
+
+        if(!file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            String extension = fileName.substring(fileName.lastIndexOf("."));
+            String uploadName = UUID.randomUUID() + extension;
+
+            String realPath = session.getServletContext().getRealPath("/board/uploads/");
+            Path realDir = Paths.get(realPath);
+            if(!Files.exists(realDir)) {
+                try {
+                    Files.createDirectories(realDir);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            File uploadFile = new File(realPath + uploadName);
+            try {
+                Thumbnails.of(file.getInputStream()).size(300, 300).toFile(uploadFile);
+                /*file.transferTo(uploadFile);*/
+                productDTO.setImagePath("/board/uploads/" + uploadName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
 

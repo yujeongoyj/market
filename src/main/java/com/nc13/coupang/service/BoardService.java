@@ -15,7 +15,7 @@ import java.util.List;
 public class BoardService {
 
     private final String NAMESPACE = "com.nc13.mappers.BoardMapper";
-    // 한 페이지에 들어갈 글의 갯수
+
     private final int PAGE_SIZE = 20;
 
     @Autowired
@@ -33,10 +33,7 @@ public class BoardService {
 
 
     public int selectMaxPage() {
-        // 글의 총 갯수
         int maxRow = session.selectOne(NAMESPACE + ".selectMaxRow");
-
-        // 총 페이지 갯수
         int maxPage = maxRow / PAGE_SIZE;
 
         if (maxRow % PAGE_SIZE != 0) {

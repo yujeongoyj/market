@@ -9,6 +9,6 @@ public class ProductDTO {
     private String description;
     private int price;
     private int amount;
-
+    private String imagePath;
 
 }

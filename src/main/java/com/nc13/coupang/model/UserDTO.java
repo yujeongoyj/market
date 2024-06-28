@@ -11,4 +11,5 @@ public class UserDTO {
     private String isSeller;
     private String address;
 
+
 }
