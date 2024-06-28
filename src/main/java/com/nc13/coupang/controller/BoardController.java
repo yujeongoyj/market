@@ -5,6 +5,7 @@ import com.nc13.coupang.model.UserDTO;
 import com.nc13.coupang.service.BoardService;
 import jakarta.servlet.http.HttpSession;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -181,4 +182,86 @@ public class BoardController {
         resultMap.put("url", uploadPath);
         return resultMap;
     }
+
+    @GetMapping("update/{id}")
+    public String update(@PathVariable int id, HttpSession session,
+                         RedirectAttributes redirectAttributes, Model model) {
+        UserDTO logIn = (UserDTO) session.getAttribute("logIn");
+        if (logIn == null) {
+            redirectAttributes.addFlashAttribute("messsage", "권한없음");
+            return "redirect:/";
+        }
+        ProductDTO productDTO = boardService.selectOne(id);
+        model.addAttribute("productDTO", productDTO);
+        return "/board/update";
+    }
+
+    @PostMapping("update/{id}")
+    public String update(@PathVariable int id, HttpSession session,
+                         RedirectAttributes redirectAttributes, ProductDTO attempt,
+                         @RequestParam("file") MultipartFile file) {
+
+        UserDTO logIn = (UserDTO) session.getAttribute("logIn");
+        if (logIn == null) {
+            return "redirect:/";
+        }
+
+        ProductDTO productDTO = boardService.selectOne(id);
+        if(productDTO == null) {
+            redirectAttributes.addFlashAttribute("message", "유효하지 않은 글 번호입니다.");
+            return "redirect:/showMessage";
+        }
+
+        // 새로운 파일이 업로드되면 새로운 이미지 경로를 주는 코드
+        if(!file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            String extension = fileName.substring(fileName.lastIndexOf("."));
+            String uploadName = UUID.randomUUID() + extension;
+
+            String realPath = session.getServletContext().getRealPath("/board/uploads/");
+            Path realDir = Paths.get(realPath);
+            if(!Files.exists(realDir)) {
+                try {
+                    Files.createDirectories(realDir);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            File uploadFile = new File(realPath + uploadName);
+            try {
+                file.transferTo(uploadFile);
+                attempt.setImagePath("/board/uploads/" + uploadName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // 새로운 파일이 업로드되어도 현재 이미지 경로를 유지
+            attempt.setImagePath(productDTO.getImagePath());
+        }
+
+        attempt.setId(id);
+        boardService.update(attempt);
+        return "redirect:/board/showOne/" + id;
+    }
+
+    @GetMapping("delete/{id}")
+    public String delete(@PathVariable int id, HttpSession session, RedirectAttributes redirectAttributes) {
+        UserDTO logIn = (UserDTO) session.getAttribute("logIn");
+        if(logIn == null) {
+            return "redirect:/";
+        }
+
+        ProductDTO productDTO = boardService.selectOne(id);
+        if (productDTO == null) {
+            redirectAttributes.addFlashAttribute("message", "존재하지 않는 글번호 ");
+            return "redirect:/showMessage";
+        }
+
+        boardService.delete(id);
+        return "redirect:/board/showAll";
+    }
+
+
+
+
 }

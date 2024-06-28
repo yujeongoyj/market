@@ -21,4 +21,17 @@
     <select id="selectMaxRow" resultType="int">
         SELECT COUNT(*) FROM product
     </select>
+
+    <select id="update" parameterType="productDTO">
+        UPDATE product SET name = #{name},
+        description = #{description},
+        price = #{price},
+        image_path = #{imagePath}
+        WHERE id = #{id}
+    </select>
+
+    <select id="delete">
+        DELETE FROM product
+        WHERE id = #{id}
+    </select>
 </mapper>

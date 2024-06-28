@@ -44,6 +44,16 @@
                 </tr>
                 <%
                     }
+
+                    if(result.getIsSeller().equalsIgnoreCase("false")) {
+                %>
+                <tr class="text-center">
+                    <td class="text-center" colspan="3">
+                        <button class="btn btn-outline-success" onclick="deleteBoard(${productDTO.id})">장바구니에 넣기</button>
+                    </td>
+                </tr>
+                <%
+                    }
                 %>
                 <tr>
                     <td colspan="2" class="text-center">

@@ -50,4 +50,12 @@ public class BoardService {
     public void insert(ProductDTO productDTO) {
         session.insert(NAMESPACE + ".insert", productDTO);
     }
+
+    public void update(ProductDTO attempt) {
+        session.update(NAMESPACE + ".update",attempt);
+    }
+
+    public void delete(int id) {
+        session.delete(NAMESPACE + ".delete", id);
+    }
 }
