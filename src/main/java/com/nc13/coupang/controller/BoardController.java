@@ -109,8 +109,8 @@ public class BoardController {
             }
             File uploadFile = new File(realPath + uploadName);
             try {
-                Thumbnails.of(file.getInputStream()).size(300, 300).toFile(uploadFile);
-                /*file.transferTo(uploadFile);*/
+
+                file.transferTo(uploadFile);
                 productDTO.setImagePath("/board/uploads/" + uploadName);
             } catch (IOException e) {
                 e.printStackTrace();

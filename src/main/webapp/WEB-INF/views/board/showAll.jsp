@@ -21,30 +21,24 @@
         }
 
 
+        .pagination-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination {
+            margin: 0;
+        }
+
+
     </style>
 </head>
 <body>
-<%--<div class="container">
-    <div class="header">
-        <div>카테고리</div>
-        <div>검색</div>
-        <div>나의 정보</div>
-        <div>장바구니</div>
 
-        <%
-            UserDTO result = (UserDTO) session.getAttribute("logIn");
-            if(result != null && result.getIsSeller().equalsIgnoreCase("true")) {
-        %>
-        <div>
-            <a class="btn btn-outline-success" href="/board/write">상품 등록</a>
-        </div>
-        <%
-            }
-        %>
-    </div>--%>
 
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="header">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">짭팡</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -72,14 +66,14 @@
                     </li>
                     <%
                         UserDTO result = (UserDTO) session.getAttribute("logIn");
-                        if(result != null && result.getIsSeller().equalsIgnoreCase("false")) {
+                        if (result != null && result.getIsSeller().equalsIgnoreCase("false")) {
                     %>
                     <li class="nav-item">
                         <a class="nav-link" href="#">장바구니</a>
                     </li>
                     <%
                         }
-                        if(result != null && result.getIsSeller().equalsIgnoreCase("true")) {
+                        if (result != null && result.getIsSeller().equalsIgnoreCase("true")) {
                     %>
                     <li class="nav-item">
                         <a class="nav-link" href="/board/write">상품등록</a>
@@ -96,16 +90,30 @@
         </div>
     </nav>
 
+    <%--
+        <div class="product-container row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            <c:forEach items="${list}" var="p">
+                <div class="col">
+                    <div class="product" onclick="javascript:location.href='/board/showOne/${p.id}'">
+                        <img src="${p.imagePath}" alt="${p.name}">
+                        <div class="details">
+                            <p>상품 번호: ${p.id}</p>'`
+                            <p>상품 이름: ${p.name}</p>
+                            <p>가격: ${p.price}</p>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>--%>
 
-    <div class="product-container row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    <div class="row row-cols-1 row-cols-md-4 g-4" style="margin-top: 4%">
         <c:forEach items="${list}" var="p">
-            <div class="col">
-                <div class="product" onclick="javascript:location.href='/board/showOne/${p.id}'">
-                    <img src="${p.imagePath}" alt="${p.name}">
-                    <div class="details">
-                        <p>상품 번호: ${p.id}</p>
-                        <p>상품 이름: ${p.name}</p>
-                        <p>가격: ${p.price}</p>
+            <div class="col" onclick="javascript:location.href='/board/showOne/${p.id}'">
+                <div class="card h-100">
+                    <img src="${p.imagePath}" class="card-img-top" alt="${p.name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${p.name}</h5>
+                        <p class="card-text">${p.price}원</p>
                     </div>
                 </div>
             </div>

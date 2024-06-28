@@ -39,7 +39,7 @@
 
             <div class="row justify-content-center">
                 <div class="col-6">
-                    <label for="input_file">첨부파일</label>
+                    <label for="input_file">썸네일에 등록할 사진</label>
                     <input type="file" class="form-control" id="input_file" name="file" multiple>
                 </div>
             </div>

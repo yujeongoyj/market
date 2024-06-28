@@ -108,11 +108,11 @@
 
 		<!--첨부파일 이미지를 리사이징하는 로직을 추가하기 위해 Thumbnail이라는
 		 라이브러리를 사용한다. -->
-		<dependency>
+<!--		<dependency>
 			<groupId>net.coobird</groupId>
 			<artifactId>thumbnailator</artifactId>
 			<version>0.4.14</version>
-		</dependency>
+		</dependency>-->
 
 	</dependencies>
 
