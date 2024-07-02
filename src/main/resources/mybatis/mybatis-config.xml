@@ -9,6 +9,8 @@
     <typeAliases>
         <typeAlias type="com.nc13.coupang.model.UserDTO" alias="userDTO"/>
         <typeAlias type="com.nc13.coupang.model.ProductDTO" alias="productDTO"/>
+        <typeAlias type="com.nc13.coupang.model.CartDTO" alias="cartDTO" />
+
     </typeAliases>
 
 </configuration>

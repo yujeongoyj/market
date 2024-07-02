@@ -4,7 +4,7 @@ import com.nc13.coupang.model.ProductDTO;
 import com.nc13.coupang.model.UserDTO;
 import com.nc13.coupang.service.BoardService;
 import jakarta.servlet.http.HttpSession;
-import net.coobird.thumbnailator.Thumbnails;
+
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

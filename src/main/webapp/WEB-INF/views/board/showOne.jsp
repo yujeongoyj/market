@@ -11,6 +11,8 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
 <div class="container-fluid">
@@ -31,6 +33,9 @@
                 <tr>
                     <td colspan="2">${productDTO.description}</td>
                 </tr>
+                <tr>
+                    <td colspan="2">가격 : ${productDTO.price} 원</td>
+                </tr>
 
                 <%
                     UserDTO result = (UserDTO) session.getAttribute("logIn");
@@ -47,9 +52,13 @@
 
                     if(result.getIsSeller().equalsIgnoreCase("false")) {
                 %>
+
                 <tr class="text-center">
                     <td class="text-center" colspan="3">
-                        <button class="btn btn-outline-success" onclick="deleteBoard(${productDTO.id})">장바구니에 넣기</button>
+                        <label for="quantity">수량</label>
+                        <input type="number" id="quantity" min="1">
+                        <!--구매자가 입력한 수량은 장바구니에 추가하는 jQuery함수 -->
+                        <button class="btn btn-outline-success" onclick="addToCart(${productDTO.id})">장바구니에 넣기</button>
                     </td>
                 </tr>
                 <%
@@ -82,6 +91,32 @@
                 })
             }
         });
+    }
+
+    function addToCart(productId) {
+        let quantity = document.getElementById("quantity").value;
+
+        $.ajax({
+            type: "POST",
+            url: "/cart/add",
+            data: {
+                'productId' : productId,
+                'quantity': quantity
+            },
+            success: function(response) {
+                Swal.fire({
+                    title: "장바구니에 추가되었습니다",
+                    icon: 'success'
+                }).then(() => {
+                    location.reload();
+                });
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    title: '오류 발생',
+                });
+            }
+        })
     }
 </script>
 </body>

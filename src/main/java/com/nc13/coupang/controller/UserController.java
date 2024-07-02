@@ -5,6 +5,7 @@ import com.nc13.coupang.model.UserDTO;
 import com.nc13.coupang.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,5 +73,14 @@ public class UserController {
         }
         return "redirect:/";
 
+    }
+
+    @GetMapping("myInfo")
+    public String myInfo(HttpSession session) {
+        UserDTO logIn = (UserDTO) session.getAttribute("logIn");
+        if (logIn == null) {
+            return "redirect:/login"; // 로그인 페이지로 리디렉션
+        }
+        return "/user/myInfo";
     }
 }

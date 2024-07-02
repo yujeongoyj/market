@@ -68,14 +68,14 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">나의 정보</a>
+                        <a class="nav-link" href="/user/myInfo">나의 정보</a>
                     </li>
                     <%
                         UserDTO result = (UserDTO) session.getAttribute("logIn");
                         if (result != null && result.getIsSeller().equalsIgnoreCase("false")) {
                     %>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">장바구니</a>
+                        <a class="nav-link" href="/cart/myCart">장바구니</a>
                     </li>
                     <%
                         }
@@ -96,21 +96,6 @@
         </div>
     </nav>
 
-    <%--
-        <div class="product-container row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-            <c:forEach items="${list}" var="p">
-                <div class="col">
-                    <div class="product" onclick="javascript:location.href='/board/showOne/${p.id}'">
-                        <img src="${p.imagePath}" alt="${p.name}">
-                        <div class="details">
-                            <p>상품 번호: ${p.id}</p>'`
-                            <p>상품 이름: ${p.name}</p>
-                            <p>가격: ${p.price}</p>
-                        </div>
-                    </div>
-                </div>
-            </c:forEach>
-        </div>--%>
 
     <div class="row row-cols-1 row-cols-md-4 g-4" style="margin-top: 4%">
         <c:forEach items="${list}" var="p">

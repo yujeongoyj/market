@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nc13.mappers.CartMapper">
+
+<!--    <select id="selectAll" resultType="cartDTO">
+        SELECT * FROM cart
+        INNER JOIN product
+        ON cart.product_id = product.id
+        WHERE user_id = #{userId};
+    </select>-->
+
+    <select id="selectAll" resultType="cartDTO">
+        SELECT product.id AS productId, product.name AS productName,
+        cart.quantity AS quantity, product.price AS price FROM cart
+        INNER JOIN product
+        ON cart.product_id = product.id
+        WHERE user_id = #{userId};
+    </select>
+    <insert id="insert" parameterType="cartDTO">
+        INSERT INTO cart (user_id, product_id, quantity)
+        VALUES (#{userId}, #{productId}, #{quantity})
+    </insert>
+</mapper>
