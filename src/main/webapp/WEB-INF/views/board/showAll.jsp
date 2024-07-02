@@ -104,7 +104,7 @@
                     <img src="${p.imagePath}" class="card-img-top" alt="${p.name}">
                     <div class="card-body">
                         <h5 class="card-title">${p.name}</h5>
-                        <p class="card-text">${p.price}원</p>
+                        <p class="card-text">₩ ${p.price}</p>
                     </div>
                 </div>
             </div>

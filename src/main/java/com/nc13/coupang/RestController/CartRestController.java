@@ -26,7 +26,7 @@ public class CartRestController {
         CartDTO cartDTO = new CartDTO();
         cartDTO.setUserId(userDTO.getId());
         cartDTO.setProductId(productId);
-        cartDTO.setProductName(cartDTO.getProductName());
+        cartDTO.setName(cartDTO.getName());
         cartDTO.setQuantity(quantity);
 
         cartService.addToCart(cartDTO);

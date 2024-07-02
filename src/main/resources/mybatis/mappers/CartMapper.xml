@@ -4,22 +4,27 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nc13.mappers.CartMapper">
 
-<!--    <select id="selectAll" resultType="cartDTO">
+    <select id="selectAll" resultType="cartDTO">
         SELECT * FROM cart
         INNER JOIN product
         ON cart.product_id = product.id
         WHERE user_id = #{userId};
-    </select>-->
+    </select>
 
-    <select id="selectAll" resultType="cartDTO">
+<!--    <select id="selectAll" resultType="cartDTO">
         SELECT product.id AS productId, product.name AS productName,
-        cart.quantity AS quantity, product.price AS price FROM cart
+        cart.quantity AS quantity, product.price AS price, product.image_path AS imagePath FROM cart
         INNER JOIN product
         ON cart.product_id = product.id
         WHERE user_id = #{userId};
-    </select>
+    </select>-->
     <insert id="insert" parameterType="cartDTO">
         INSERT INTO cart (user_id, product_id, quantity)
         VALUES (#{userId}, #{productId}, #{quantity})
     </insert>
+
+    <select id="delete" parameterType="int">
+        DELETE FROM cart
+        WHERE id = #{id}
+    </select>
 </mapper>

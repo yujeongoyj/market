@@ -25,4 +25,7 @@ public class CartService {
     }
 
 
+    public void delete(int id) {
+        session.delete(NAMESPACE + ".delete", id);
+    }
 }
