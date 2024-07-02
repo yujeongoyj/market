@@ -75,6 +75,11 @@
                 </tr>
                 <tr>
                     <td colspan="7" class="text-center">
+                        <a class="btn btn-outline-success" href="">구매하기</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7" class="text-center">
                         <a class="btn btn-outline-secondary" href="/board/showAll">목록으로</a>
                     </td>
                 </tr>
@@ -84,7 +89,7 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         let totalPrice = 0;
         $(".cartInfo").each(function (index, element) {
 
