@@ -27,4 +27,17 @@
         DELETE FROM cart
         WHERE id = #{id}
     </select>
+
+    <update id="updateQuantity" parameterType="cartDTO">
+        UPDATE cart
+        SET quantity = #{quantity}
+        WHERE id = #{id};
+    </update>
+
+    <select id="calculateTotal" resultType="double">
+        SELECT SUM(cart.quantity * product.price) AS totalAmount
+        FROM cart
+        INNER JOIN product ON cart.product_id = product.id
+        WHERE cart.user_id = #{userId};
+    </select>
 </mapper>
